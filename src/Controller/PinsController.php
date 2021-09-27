@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Pin;
 use App\Repository\PinRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -77,14 +78,15 @@ class PinsController extends AbstractController
     // Formulaire 2, methode avec 
     public function create(Request $request, EntityManagerInterface $em): Response
     {
-        $form = $this->createFormBuilder()
-            ->add('title')
-            ->add('description')
-            ->getForm()    
+            $form = $this->createFormBuilder()
+            ->add('title', TextType::class)
+            ->add('description', TextareaType::class)
+            ->add('submit', TextType::class, ['label' => 'Create Pin'])
+            ->getForm()
         ;
 
         return $this->render('pins/create.html.twig', [
-            'monFormulaire' => $form
+            'monFormulaire' => $form->createView()
         ]);
     }
 }
