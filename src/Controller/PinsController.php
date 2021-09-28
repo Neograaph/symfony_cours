@@ -22,6 +22,21 @@ class PinsController extends AbstractController
     {
         return $this->render('pins/index.html.twig', ['pins' => $repo->findAll()]);
     }
+    /**
+     * @Route("/pins/{id<[0-9]+>}" name="app_pins_show")
+     */
+    public function show(PinRepository $repo, int $id): Response
+    {
+        $pin = $repo->find($id);
+
+        if (!$pin){
+            throw $this->createNotFoundException(' Pin #'. $id . ' not found !');
+        }
+
+        // dd($pin);
+
+        return $this->render('pins/show.html.twig', compact('pin'));
+    }
     /* les versions moins simplifiées :
     public function index(EntityManagerInterface $em): Response
     {
