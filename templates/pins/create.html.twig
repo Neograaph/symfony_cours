@@ -23,6 +23,12 @@
   </form> #}
 
   {# Methode n°2 #}
-  {{ form(monFormulaire) }}
+  {{ form_start(monFormulaire) }}
+
+    {{ form_widget(monFormulaire) }}
+    <input type="submit" value="Create Pin">
+  
+  {{ form_end(monFormulaire) }}
+
 </body>
 </html>

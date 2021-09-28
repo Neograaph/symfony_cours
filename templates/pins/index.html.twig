@@ -7,13 +7,21 @@
   <title>pins</title>
 </head>
 <body>
-  <h1>PIndex</h1>
+  <h1>All Pins</h1>
+  
   <a href="{{ path('app_pins_create') }}">Create Pin</a>
+
+  {# pas besoin du if dans ce cas la, on peut intégrer le else dans la boucle for #}
+  {# {% if pins|length > 0 %} #}
   {% for pin in pins %}
-    <article>
-      <h2>{{ pin.title }}</h2>
-      <p>{{ pin.description }}</p>
-    </article>
+      <article>
+        <h2>{{ pin.title }}</h2>
+        <p>{{ pin.description }}</p>
+      </article>
+  {% else %}
+    <p>Sorry, no pins yet !</p>
   {% endfor %}
+  {# {% endif %} #}
+
 </body>
 </html>

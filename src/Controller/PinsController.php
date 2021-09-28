@@ -76,24 +76,31 @@ class PinsController extends AbstractController
     return $this->render('pins/create.html.twig');
     } */
 
-    // Formulaire 2, methode avec
+    // Formulaire 2, methode avec form de composer
     public function create(Request $request, EntityManagerInterface $em): Response
     {
-        $form = $this->createFormBuilder()
-            ->add('title', TextType::class)
-            ->add('description', TextareaType::class)
-            ->add('submit', SubmitType::class, ['label' => 'Create Pin'])
+        $pin = new Pin;
+        // possible de passer un objet ou un tableau
+        // plus sévère sur un objet, tout les champs doivent avoir des setters/getters.
+        $form = $this->createFormBuilder($pin)
+            ->add('title', null, ['attr' => ['autofocus' => true]])
+            ->add('description',null , ['attr' => ['rows' => 10, 'col' => 50]])
+            // ->add('submit', SubmitType::class, ['label' => 'Create Pin'])
+            // Bonnes pratiques : gérer le bouton submit au niveau de la vue et laisser symfony définir le type du champs auto
+            // TextareaType::class ====> null
             ->getForm()
         ;
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
 
-            $pin = new Pin;
-            $pin->setTitle($data['title']);
-            $pin->setDescription($data['description']);
+            // 2 manières de faire. Créer $pin plus haut pour éviter le code suivant.
+            // $data = $form->getData();
+            // $pin = new Pin;
+            // $pin->setTitle($data['title']);
+            // $pin->setDescription($data['description']);
+
             $em->persist($pin);
             $em->flush();
 
